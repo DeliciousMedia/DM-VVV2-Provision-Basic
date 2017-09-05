@@ -3,7 +3,7 @@ Provision scripts to setup a copy of WordPress along with a blank theme ready to
 
 If you don't already have a vvv-custom.yml, create it by copying _~/vagrant-local/vvv-config.yml_ to _~/vagrant-local/vvv-custom.yml_.
 
-Add the following lines to the ``sites:`` section:
+Add the following lines to the ``sites:`` section (note: tabs may not copy correctly; you may need to reformat this):
 
 ```
   excitingproject:
