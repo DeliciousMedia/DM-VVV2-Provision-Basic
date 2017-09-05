@@ -8,7 +8,7 @@ Add the following lines to the ``sites:`` section:
 ```
   excitingproject:
     nginx_upstream: php71
-    repo: git@github.com:DeliciousMedia/DM-VVV2-Provision-Basic.git
+    repo: https://github.com/DeliciousMedia/DM-VVV2-Provision-Basic.git
     hosts:
       - excitingproject.dev
 ```
