@@ -83,7 +83,8 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	find . -type f | xargs perl -pi -e "s/\\b_s\\b/${VVV_SITE_NAME}/g"
 	find . -type f | xargs perl -pi -e "s/\\b_s_/${VVV_SITE_NAME}_/g"
 	mkdir css
-	mv style.css css/${VVV_SITE_NAME}.css
+	cat style.css | awk '!f&&/\*\//{f=1;next}f' > css/${VVV_SITE_NAME}.css
+	rm style.css
 	mv woocommerce.css css/woocommerce.css
 	mv _style.css style.css
 	noroot wp theme activate ${VVV_SITE_NAME}
