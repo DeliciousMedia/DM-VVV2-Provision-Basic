@@ -68,6 +68,9 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	noroot wp option update default_comment_status closed
 	noroot wp option update default_ping_status closed
 	noroot wp option update default_pingback_flag 0
+    noroot wp core language install en_GB
+    noroot wp core language activate en_GB
+
     rm local-config-sample.php
     rm README.md
 	git remote rm origin
