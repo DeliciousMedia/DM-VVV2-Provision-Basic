@@ -50,6 +50,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	echo -e "\n Creating local-config.php.\n\n"
 	dbprefix="wp`env LC_CTYPE=C LC_ALL=C tr -dc "a-f0-9" < /dev/urandom | head -c 6`_"
 	cat local-config-sample.php | sed "s/@DB_NAME@/${VVV_SITE_NAME}/g;s/@DB_USER@/wp/g;s/@DB_PASSWORD@/wp/g;s/@DB_HOST@/localhost/g;s/@DB_PREFIX@/$dbprefix/g;" > local-config.php
+    rm local-config-sample.php
 
 	echo -e "\n Getting new salts for local-config.php.\n\n"
 	SALT=$(curl -sL https://api.wordpress.org/secret-key/1.1/salt/)
@@ -71,9 +72,11 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
     noroot wp core language install en_GB
     noroot wp core language activate en_GB
 
-    rm local-config-sample.php
+	echo -e "\nRemoving previous git data & setting up new git repor\n\n"
     rm README.md
 	git remote rm origin
+	rm -rf .git
+	git init
 
 	echo -e "\nCreating ${VVV_SITE_NAME} theme from DM-Base-Theme\n\n"
 	cd content/themes/
