@@ -88,7 +88,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	rm README.md
 	find . -type f | xargs perl -pi -e "s/\\b_s\\b/${VVV_SITE_NAME}/g"
 	find . -type f | xargs perl -pi -e "s/\\b_s_/${VVV_SITE_NAME}_/g"
-	mv src/sass/_s.scss src/sass/${VVV_SITE_NAME}.css 
+	mv src/sass/_s.scss src/sass/${VVV_SITE_NAME}.scss 
 	mv assets/css/_s.css assets/css/${VVV_SITE_NAME}.css 
 	#mkdir css
 	#cat style.css | awk '!f&&/\*\//{f=1;next}f' > css/${VVV_SITE_NAME}.css
