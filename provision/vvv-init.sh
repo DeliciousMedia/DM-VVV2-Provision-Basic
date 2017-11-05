@@ -44,7 +44,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	mkdir wp
 	noroot wp core download
 
-	# Remove unnessary wp-content folder from WP core install
+	# Remove unnecessary wp-content folder from WP core install
 	rm -rf ${VVV_PATH_TO_SITE}/public_html/wp/wp-content/
 	
 	echo -e "\n Creating local-config.php.\n\n"
@@ -99,7 +99,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
     cd -
 
 	# Update composer
-	#echo -e "\n Fetching dependancies via Composer.\n\n"
+	#echo -e "\n Fetching dependencies via Composer.\n\n"
 	#noroot composer update
 
 else 
