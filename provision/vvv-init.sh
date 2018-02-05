@@ -102,10 +102,10 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	echo -e "\n Fetching additional plugins via Composer.\n\n"
 	noroot composer install
 
-	if [ -d "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader/" ] {
+	if [ -d "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader/" ]; then
 		echo -e "\n Found DM-MuLoader, copying plugin loader to mu-plugins folder."
 		cp "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader/dm-muloader.php" "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader.php"
-	}
+	fi
 	
 
 else 
