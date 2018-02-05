@@ -100,7 +100,8 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 
 	# Call composer
 	echo -e "\n Fetching additional plugins via Composer.\n\n"
-	noroot composer install
+	composer global require balbuf/composer-wp
+	noroot /usr/bin/php7.1 /usr/local/bin/composer install
 
 	if [ -d "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader/" ]; then
 		echo -e "\n Found DM-MuLoader, copying plugin loader to mu-plugins folder."
