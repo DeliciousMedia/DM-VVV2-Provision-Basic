@@ -96,11 +96,17 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	#mv woocommerce.css css/woocommerce.css
 	#mv _style.css style.css
 	noroot wp theme activate ${VVV_SITE_NAME}
-    cd -
+    cd ${VVV_PATH_TO_SITE}/public_html
 
-	# Update composer
-	#echo -e "\n Fetching dependencies via Composer.\n\n"
-	#noroot composer update
+	# Call composer
+	echo -e "\n Fetching additional plugins via Composer.\n\n"
+	noroot composer install
+
+	if [ -d "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader/" ] {
+		echo -e "\n Found DM-MuLoader, copying plugin loader to mu-plugins folder."
+		cp "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader/dm-muloader.php" "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader.php"
+	}
+	
 
 else 
 	echo -e "\n Nothing to do for site.\n\n"
