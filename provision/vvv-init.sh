@@ -44,7 +44,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	mkdir wp
 	noroot wp core download
 
-	# Remove unnessary wp-content folder from WP core install
+	# Remove unnecessary wp-content folder from WP core install
 	rm -rf ${VVV_PATH_TO_SITE}/public_html/wp/wp-content/
 	
 	echo -e "\n Creating local-config.php.\n\n"
@@ -56,7 +56,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	SALT=$(curl -sL https://api.wordpress.org/secret-key/1.1/salt/)
 	printf '%s\n' "g/@SALT_PLACEHOLDER@/d" a "$SALT" . w | ed -s local-config.php
 
-  	noroot wp core install --url=${VVV_SITE_NAME}.dev --title="${VVV_SITE_NAME}" --admin_user=deliciousmedia --admin_password=password --admin_email=clients@deliciousmedia.co.uk
+  	noroot wp core install --url=${VVV_SITE_NAME}.test --title="${VVV_SITE_NAME}" --admin_user=deliciousmedia --admin_password=password --admin_email=clients@deliciousmedia.co.uk
 
 	echo -e "\n Creating local folders for uploads & static content.\n\n"
     mkdir -p shared/content/uploads
@@ -99,7 +99,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
     cd -
 
 	# Update composer
-	#echo -e "\n Fetching dependancies via Composer.\n\n"
+	#echo -e "\n Fetching dependencies via Composer.\n\n"
 	#noroot composer update
 
 else 
