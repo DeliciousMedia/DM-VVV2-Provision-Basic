@@ -16,3 +16,6 @@ Add the following lines to the ``sites:`` section (note: tabs may not copy corre
 If it isn't there already, include PHP 7.1 or PHP 7.2 by adding `` - php71`` or `` - php72`` under the ``utilities:`` section.
 
 Start the machine with ``vagrant up --provision`` or if it is already running, provision using ``vagrant reload --provision``.
+
+---
+Built by the team at [Delicious Media](https://www.deliciousmedia.co.uk/), a specialist WordPress development agency based in Sheffield, UK.
