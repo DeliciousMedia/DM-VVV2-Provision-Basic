@@ -13,10 +13,18 @@ if ! grep -q github.com ~/.ssh/known_hosts; then
     noroot ssh-keyscan github.com >> ~/.ssh/known_hosts
 fi;
 
+# fetch the first host as the primary domain. If none is available, generate a default using the site name
+DOMAIN=`get_primary_host "${VVV_SITE_NAME}".test`
+SITE_TITLE=`get_config_value 'site_title' "${DOMAIN}"`
+WP_VERSION=`get_config_value 'wp_version' 'latest'`
+WP_TYPE=`get_config_value 'wp_type' "single"`
+DB_NAME=`get_config_value 'db_name' "${VVV_SITE_NAME}"`
+DB_NAME=${DB_NAME//[\\\/\.\<\>\:\"\'\|\?\!\*-]/}
+
 # Make a database, if we don't already have one
-echo -e "\nCreating database '${VVV_SITE_NAME}' (if it's not already there)"
-mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS ${VVV_SITE_NAME}"
-mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON ${VVV_SITE_NAME}.* TO wp@localhost IDENTIFIED BY 'wp';"
+echo -e "\nCreating database '${DB_NAME}' (if it's not already there)"
+mysql -u root --password=root -e "CREATE DATABASE IF NOT EXISTS ${DB_NAME}"
+mysql -u root --password=root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO wp@localhost IDENTIFIED BY 'wp';"
 echo -e "\n DB operations done.\n\n"
 
 # Create Nginx log files if missing
@@ -30,7 +38,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	echo -e "\n Setting up site ${VVV_SITE_NAME}.\n\n"
 
 	# Add the site name to the hosts file
-	echo "127.0.0.1 ${VVV_SITE_NAME}.local # vvv-auto" >> "/etc/hosts"
+	echo "127.0.0.1 ${VVV_SITE_NAME}.test # vvv-auto" >> "/etc/hosts"
 
 	mkdir -p ${VVV_PATH_TO_SITE}/public_html
 	cd ${VVV_PATH_TO_SITE}/public_html
@@ -105,4 +113,21 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 
 else 
 	echo -e "\n Nothing to do for site.\n\n"
+fi
+
+#Copy the template across to the conf file
+cp -f "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf.tmpl" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
+
+if [ -n "$(type -t is_utility_installed)" ] && [ "$(type -t is_utility_installed)" = function ] && `is_utility_installed core tls-ca`; then
+  VVV_CERT_DIR="/srv/certificates"
+  # On VVV 2.x we don't have a /srv/certificates mount, so switch to /vagrant/certificates
+  codename=$(lsb_release --codename | cut -f2)
+  if [[ $codename == "trusty" ]]; then # VVV 2 uses Ubuntu 14 LTS trusty
+    VVV_CERT_DIR="/vagrant/certificates"
+  fi
+  sed -i "s#{{TLS_CERT}}#ssl_certificate ${VVV_CERT_DIR}/${VVV_SITE_NAME}/dev.crt;#" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
+  sed -i "s#{{TLS_KEY}}#ssl_certificate_key ${VVV_CERT_DIR}/${VVV_SITE_NAME}/dev.key;#" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
+else
+    sed -i "s#{{TLS_CERT}}##" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
+    sed -i "s#{{TLS_KEY}}##" "${VVV_PATH_TO_SITE}/provision/vvv-nginx.conf"
 fi
