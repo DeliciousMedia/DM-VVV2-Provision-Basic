@@ -61,7 +61,7 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	
 	echo -e "\n Creating local-config.php.\n\n"
 	dbprefix="wp`env LC_CTYPE=C LC_ALL=C tr -dc "a-f0-9" < /dev/urandom | head -c 6`_"
-	cat local-config-sample.php | sed "s/@DB_NAME@/${VVV_SITE_NAME}/g;s/@DB_USER@/wp/g;s/@DB_PASSWORD@/wp/g;s/@DB_HOST@/localhost/g;s/@DB_PREFIX@/$dbprefix/g;s/@LOG_PATH@/${VVV_PATH_TO_SITE}/g;" > local-config.php
+	cat local-config-sample.php | sed "s/@DB_NAME@/${VVV_SITE_NAME}/g;s/@DB_USER@/wp/g;s/@DB_PASSWORD@/wp/g;s/@DB_HOST@/localhost/g;s/@DB_PREFIX@/${dbprefix}/g;s/@LOG_PATH@/${VVV_PATH_TO_SITE}/g;" > local-config.php
     rm local-config-sample.php
 
 	echo -e "\n Getting new salts for local-config.php.\n\n"
