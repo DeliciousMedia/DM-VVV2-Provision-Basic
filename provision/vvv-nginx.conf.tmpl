@@ -1,5 +1,5 @@
 ################################################################
-# NGINX configuration for Delicious Media sites - version 3
+# NGINX configuration for Delicious Media sites - version 4
 #
 
 server {
@@ -20,7 +20,7 @@ server {
 
     {vvv_tls_cert}
     {vvv_tls_key}
-    
+
 ## To load missing images from the live site (or staging), uncomment this block and replace the URL in the rewrite line.
 #    location ~* \.(jpe?g|gif|png|pdf)$ {
 #        try_files $uri @missing;
