@@ -100,21 +100,19 @@ if [[ ! -d "${VVV_PATH_TO_SITE}/public_html" ]]; then
 	rm README.md
 	find . -type f | xargs perl -pi -e "s/\\b_s\\b/${VVV_SITE_NAME}/g"
 	find . -type f | xargs perl -pi -e "s/\\b_s_/${VVV_SITE_NAME}_/g"
-	mv src/sass/_s.scss src/sass/${VVV_SITE_NAME}.scss 
+	mv src/sass/site.scss src/sass/${VVV_SITE_NAME}.scss 
 	noroot wp theme activate ${VVV_SITE_NAME}
     cd ${VVV_PATH_TO_SITE}/public_html
 
-	# Call composer, force to php 7.1.
+	# Call composer.
 	echo -e "\n Fetching additional plugins via Composer.\n\n"
-	noroot /usr/bin/php7.1 /usr/local/bin/composer global require balbuf/composer-wp
-	noroot /usr/bin/php7.1 /usr/local/bin/composer install
+	noroot /usr/local/bin/composer global require balbuf/composer-wp
+	noroot /usr/local/bin/composer install
 
 	if [ -d "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader/" ]; then
 		echo -e "\n Found DM-MuLoader, copying plugin loader to mu-plugins folder."
 		cp "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader/dm-muloader.php" "${VVV_PATH_TO_SITE}/public_html/content/mu-plugins/dm-muloader.php"
 	fi
-	
-
 else 
 	echo -e "\n Nothing to do for site.\n\n"
 fi
